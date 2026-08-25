@@ -1,636 +1,315 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Pre-operative Hb / Anaemia Nurse Action Tool</title>
-  <meta name="description" content="Static nurse-led pre-operative Hb/anaemia decision-support demonstrator for adult elective/scheduled surgery." />
-  <style>
-    :root{
-      --navy:#1f4e78; --blue:#4472c4; --pale:#d9eaf7; --input:#fff2cc;
-      --output:#eaf2f8; --note:#f4f6f7; --green:#d9ead3; --yellow:#fff2cc;
-      --amber:#fce5cd; --red:#f4cccc; --grey:#e7e6e6; --border:#d9d9d9;
-      --text:#1f1f1f;
-    }
-    *{box-sizing:border-box}
-    body{
-      margin:0;
-      font-family:Arial,Helvetica,sans-serif;
-      color:var(--text);
-      background:#f6f8fb;
-    }
-    .wrap{max-width:1500px;margin:0 auto;padding:18px}
-    header{
-      background:var(--navy); color:#fff; padding:18px 22px;
-      border-radius:12px 12px 0 0;
-    }
-    header h1{font-size:24px;margin:0 0 6px}
-    header p{margin:0;font-size:14px;line-height:1.45}
-    .scope{
-      background:#fce4d6; color:#9c0006; font-weight:700;
-      padding:12px 16px; border:1px solid #f3c7b2; border-top:0;
-      border-radius:0 0 12px 12px; line-height:1.45;
-    }
-    .grid{
-      display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1fr);
-      gap:18px; margin-top:18px;
-    }
-    .panel{
-      background:#fff; border:1px solid var(--border); border-radius:12px;
-      overflow:hidden; box-shadow:0 2px 10px rgba(0,0,0,.04);
-    }
-    .panel-title{
-      background:var(--pale); color:#17365d; font-weight:700;
-      padding:12px 14px; font-size:16px;
-    }
-    .section-title{
-      margin-top:8px; background:var(--pale); color:#17365d;
-      font-weight:700; padding:10px 12px; border-top:1px solid var(--border);
-      border-bottom:1px solid var(--border);
-    }
-    .form-row{
-      display:grid; grid-template-columns:210px minmax(170px,230px) 1fr;
-      gap:10px; padding:9px 12px; border-bottom:1px solid #ececec; align-items:start;
-    }
-    .label{font-weight:700;font-size:13px;line-height:1.35}
-    .help{font-size:12px;color:#555;line-height:1.4;background:var(--note);padding:8px;border-radius:6px}
-    input,select{
-      width:100%; padding:8px 9px; border:1px solid #c9c9c9;
-      border-radius:6px; background:var(--input); font-size:13px;
-    }
-    .outputs{padding:0}
-    .output-row{
-      display:grid; grid-template-columns:190px 150px 1fr; gap:10px;
-      padding:9px 12px; border-bottom:1px solid #ececec; align-items:start;
-    }
-    .status{
-      font-weight:700; padding:7px 8px; border-radius:6px; text-align:center;
-      background:var(--grey); color:#666; min-height:32px;
-    }
-    .status.green{background:var(--green);color:#274e13}
-    .status.yellow{background:var(--yellow);color:#7f6000}
-    .status.amber{background:var(--amber);color:#9c6500}
-    .status.red{background:var(--red);color:#9c0006}
-    .guidance{
-      background:var(--output); padding:8px 10px; border-radius:6px;
-      line-height:1.45; font-size:13px; white-space:pre-wrap;
-    }
-    .special{
-      margin:14px 12px; border:1px solid var(--border); border-radius:10px; overflow:hidden;
-    }
-    .special h3{
-      margin:0; background:var(--pale); color:#17365d; padding:10px 12px; font-size:15px;
-    }
-    .special .box{padding:12px}
-    .special .question, .special .note-box{
-      background:var(--output); border:1px solid #cddfea; border-radius:8px;
-      padding:12px; white-space:pre-wrap; line-height:1.5; font-size:13px;
-      min-height:76px;
-    }
-    .actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
-    button{
-      border:0; border-radius:7px; padding:8px 12px; cursor:pointer;
-      background:var(--blue); color:#fff; font-weight:700;
-    }
-    button.secondary{background:#6b7280}
-    button:hover{filter:brightness(.96)}
-    .footnote{
-      margin-top:18px; background:#e2f0d9; color:#274e13; font-weight:700;
-      padding:12px 14px; border-radius:10px; font-size:12px; line-height:1.45;
-    }
-    .sources{
-      margin-top:8px; background:#fff; border:1px solid var(--border);
-      padding:10px 14px; border-radius:10px; font-size:11px; line-height:1.5; color:#555;
-    }
-    .sources a{color:#1f5fae}
-    .inline-warning{color:#9c0006;font-weight:700}
-    @media(max-width:1050px){
-      .grid{grid-template-columns:1fr}
-      .form-row{grid-template-columns:180px 1fr}
-      .help{grid-column:1/-1}
-      .output-row{grid-template-columns:160px 130px 1fr}
-    }
-    @media(max-width:700px){
-      .wrap{padding:8px}
-      .form-row,.output-row{grid-template-columns:1fr}
-      header h1{font-size:20px}
-    }
-    @media print{
-      body{background:#fff}
-      .wrap{max-width:none;padding:0}
-      .panel{box-shadow:none}
-      button{display:none}
-      .grid{grid-template-columns:1fr 1fr;gap:8px}
-      header,.scope,.panel,.special,.footnote,.sources{break-inside:avoid}
-    }
-  </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Pre-operative Anaemia Decision Support</title>
+<meta name="description" content="Nurse-led pre-operative anaemia decision-support prototype for adult elective/scheduled surgery.">
+<style>
+:root{--navy:#163f63;--blue:#2c6e9f;--pale:#eaf3f9;--line:#d8e2ea;--ink:#18212a;--muted:#5f6b75;--input:#fff9df;--green:#e4f3e5;--greenText:#245d2a;--amber:#fff0d8;--amberText:#8b5a00;--red:#fde5e5;--redText:#972323;--grey:#eef1f3;--white:#fff}
+*{box-sizing:border-box}body{margin:0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;color:var(--ink);background:#f5f8fa}
+.shell{max-width:1640px;margin:0 auto;padding:18px}.hero{background:linear-gradient(135deg,var(--navy),#275f89);color:#fff;border-radius:18px;padding:22px 25px;box-shadow:0 7px 26px rgba(22,63,99,.14)}
+.hero-top{display:flex;gap:16px;justify-content:space-between;align-items:flex-start}.hero h1{font-size:26px;margin:0 0 7px}.hero p{margin:0;line-height:1.5;max-width:1000px;font-size:14px}
+.badge{border:1px solid rgba(255,255,255,.42);background:rgba(255,255,255,.1);padding:7px 10px;border-radius:999px;font-weight:800;font-size:11px;white-space:nowrap}
+.guardrail{margin-top:12px;background:#fff4e8;color:#7d3b00;border:1px solid #f0d5b8;border-radius:11px;padding:10px 13px;font-size:12px;font-weight:700;line-height:1.5}
+.columns{display:grid;grid-template-columns:minmax(330px,.95fr) minmax(360px,1.02fr) minmax(390px,1.12fr);gap:16px;margin-top:16px;align-items:start}
+.card{background:#fff;border:1px solid var(--line);border-radius:16px;overflow:hidden;box-shadow:0 3px 16px rgba(41,66,86,.06)}
+.card-head{padding:14px 15px 12px;background:var(--pale);border-bottom:1px solid var(--line)}.card-head .num{display:inline-grid;place-items:center;width:25px;height:25px;border-radius:50%;background:var(--navy);color:#fff;font-weight:900;font-size:12px;margin-right:7px}
+.card-head h2{display:inline;font-size:17px;margin:0}.card-sub{margin:5px 0 0 33px;color:var(--muted);font-size:12px;line-height:1.4}
+.section{padding:12px 14px 3px;font-size:11px;text-transform:uppercase;letter-spacing:.08em;font-weight:900;color:#365a73}
+.field{padding:9px 14px 11px;border-bottom:1px solid #edf1f4}.field label{display:block;font-weight:760;font-size:13px;margin-bottom:6px}.hint{font-size:11px;color:var(--muted);line-height:1.4;margin-top:5px}
+input,select{width:100%;border:1px solid #cfd8df;border-radius:8px;padding:9px 10px;background:var(--input);font-size:13px;color:var(--ink)}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:8px}.checkgrid{display:grid;grid-template-columns:1fr 1fr;gap:7px}
+.check{display:flex;align-items:flex-start;gap:7px;border:1px solid #dde5eb;background:#fbfcfd;border-radius:8px;padding:8px;font-size:12px;line-height:1.3}.check input{width:auto;margin-top:2px}
+.pathway{padding:12px 14px 14px}.path-title{font-size:11px;text-transform:uppercase;letter-spacing:.08em;font-weight:900;color:#365a73;margin-bottom:8px}
+.path-main{border:1px solid var(--line);border-radius:12px;padding:13px;background:#fbfcfd;margin-bottom:10px}.bigstatus{display:flex;align-items:center;gap:9px;margin-bottom:7px}
+.status{display:inline-flex;align-items:center;justify-content:center;border-radius:999px;padding:6px 10px;font-weight:900;font-size:11px;background:var(--grey);color:#5b6570}
+.status.green{background:var(--green);color:var(--greenText)}.status.amber{background:var(--amber);color:var(--amberText)}.status.red{background:var(--red);color:var(--redText)}
+.bigstatus strong{font-size:17px}.interpret{font-size:13px;line-height:1.5;color:#30404c}.metrics{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:10px 0 12px}
+.metric{border:1px solid var(--line);border-radius:10px;padding:9px 10px;background:#fff}.metric span{display:block;color:var(--muted);font-size:10px;text-transform:uppercase;letter-spacing:.06em;font-weight:800}.metric b{display:block;font-size:13px;margin-top:4px}
+.actionbox{margin-top:10px;border-left:4px solid var(--blue);padding:10px 11px;background:#f3f8fb;border-radius:0 10px 10px 0}.actionbox h3{margin:0 0 5px;font-size:13px}.actionbox div{font-size:12.5px;line-height:1.48}
+.actionbox.red{border-left-color:#b52a2a;background:#fff2f2}.actionbox.amber{border-left-color:#cc8500;background:#fff8ea}.actionbox.green{border-left-color:#3b8b45;background:#f0f9f1}
+.comms{padding:12px 14px 15px}.tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px}.tab{border:1px solid #ccd8e0;background:#fff;color:#31566f;padding:7px 9px;border-radius:8px;font-weight:800;font-size:11px;cursor:pointer}.tab.active{background:var(--navy);color:#fff;border-color:var(--navy)}
+.comm-panel{display:none}.comm-panel.active{display:block}.comm-title{font-weight:850;font-size:14px;margin:4px 0 7px}.comm-note{color:var(--muted);font-size:11px;line-height:1.4;margin-bottom:8px}
+.richbox{border:1px solid var(--line);background:#fbfcfd;border-radius:11px;padding:12px;font-size:12.5px;line-height:1.55;min-height:180px}.richbox p{margin:0 0 9px}.richbox ul{margin:4px 0 9px;padding-left:20px}
+.buttons{display:flex;gap:7px;flex-wrap:wrap;margin-top:8px}button{border:0;border-radius:8px;padding:8px 11px;background:var(--blue);color:#fff;font-size:11px;font-weight:850;cursor:pointer}button.alt{background:#64727e}button.light{background:#e9f0f5;color:#244e6a}
+.footer{margin-top:15px;display:grid;grid-template-columns:1fr auto;gap:10px;align-items:center;background:#fff;border:1px solid var(--line);border-radius:12px;padding:11px 13px;font-size:11px;color:var(--muted);line-height:1.45}.footer b{color:#334b5e}
+@media(max-width:1180px){.columns{grid-template-columns:1fr}}@media(max-width:650px){.shell{padding:8px}.hero-top{display:block}.badge{display:inline-block;margin-top:10px}.row2,.checkgrid,.metrics{grid-template-columns:1fr}}
+@media print{body{background:#fff}.shell{max-width:none;padding:0}.hero,.card,.footer{box-shadow:none}.columns{grid-template-columns:1fr 1fr 1fr;gap:8px}button,.tabs{display:none}.comm-panel{display:block;margin-bottom:12px}.richbox{min-height:0}}
+</style>
 </head>
 <body>
-<div class="wrap">
-  <header>
-    <h1>Pre-operative Hb / Anaemia – Nurse Action & Escalation Tool</h1>
-    <p>Static GitHub Pages demonstrator. Adult elective/scheduled pre-operative pathway only.</p>
+<div class="shell">
+  <header class="hero">
+    <div class="hero-top">
+      <div>
+        <h1>Pre-operative Anaemia Decision Support</h1>
+        <p>Adult elective/scheduled surgery prototype: enter the Hb, trend and a small anaemia screen, then generate a nurse action, a focused senior-review question and copyable communications.</p>
+      </div>
+      <div class="badge">LOCAL GOVERNANCE PROTOTYPE · V2</div>
+    </div>
   </header>
 
-  <div class="scope">
-    Not for paediatric, obstetric, cardiac/cardiothoracic, emergency surgery or active haemorrhage.
-    Purpose: help the pre-op nurse recognise Hb significance, complete the anaemia bundle, initiate agreed pathway actions,
-    and know when to escalate. The nurse does not prescribe transfusion or make the final proceed/postpone decision.
+  <div class="guardrail">
+    Decision-support only. This tool does not “clear” a patient for surgery and does not create an automatic cancellation or transfusion threshold.
+    The nurse initiates locally authorised pathway actions and escalates defined questions; treatment outside the nurse-led pathway and surgery timing remain clinician decisions.
+    Refer to the current pre-op Hb-SOP.
   </div>
 
-  <div class="grid">
-    <section class="panel">
-      <div class="panel-title">Nurse input</div>
+  <main class="columns">
+    <section class="card">
+      <div class="card-head"><span class="num">1</span><h2>Enter the clinical picture</h2><div class="card-sub">A small number of inputs only. Leave unavailable results blank — the middle column will interpret what is known so far.</div></div>
 
-      <div class="section-title">1. Select operation risk + special considerations</div>
-
-      <div class="form-row">
-        <div class="label">Operation bleeding / PBM risk</div>
-        <select id="risk">
-          <option value="">Select…</option>
-          <option>Low</option>
-          <option>Intermediate</option>
-          <option>Major / High</option>
-          <option>Uncertain</option>
-        </select>
-        <div class="help">
-          LOW: minor/low-loss procedures. INTERMEDIATE: moderate procedures. MAJOR/HIGH: major surgery / substantial blood-loss pathway.
-          Examples: Low—cataract, superficial/minor plastic. Intermediate—breast, hernia, lap chole, therapeutic endoscopy,
-          endoscopic urology, non-obstetric gynae, minor/intermediate ENT/maxfax. Major/High—joint replacement, major colorectal/
-          upper GI/HPB/urology/gynae/vascular/head &amp; neck/reconstruction.
-        </div>
+      <div class="section">Operation</div>
+      <div class="field">
+        <label for="risk">Operation bleeding / PBM risk</label>
+        <select id="risk"><option value="">Select…</option><option>Low</option><option>Intermediate</option><option>Major / High</option><option>Uncertain</option></select>
+        <div class="hint">Low = minor/low-loss. Intermediate = moderate. Major/high = major surgery/substantial blood-loss pathway. If uncertain, ask the perioperative/anaesthetic team rather than asking the nurse to estimate blood loss.</div>
       </div>
 
-      <div class="form-row">
-        <div class="label">Sex</div>
-        <select id="sex">
-          <option value="">Select…</option>
-          <option>Male</option>
-          <option>Female</option>
-          <option>Other / Unknown</option>
-        </select>
-        <div class="help">Used for the formal diagnostic Hb label. Major/high surgery still uses Hb &lt;130 g/L as an optimisation trigger.</div>
-      </div>
+      <div class="section">Hb + trend</div>
+      <div class="field"><div class="row2">
+        <div><label for="hb">Current Hb (g/L)</label><input id="hb" type="number" step="1" placeholder="e.g. 96"></div>
+        <div><label for="sex">Sex</label><select id="sex"><option value="">Select…</option><option>Male</option><option>Female</option><option>Other / Unknown</option></select></div>
+      </div></div>
+      <div class="field"><div class="row2">
+        <div><label for="prevHb">Previous Hb (g/L)</label><input id="prevHb" type="number" step="1" placeholder="optional"></div>
+        <div><label for="trend">Trend over ~6 months</label><select id="trend"><option value="">Select…</option><option>Stable / similar</option><option>Falling</option><option>Rising</option><option>No previous Hb available</option><option>Uncertain</option></select></div>
+      </div><div class="hint">If no previous Hb is visible, check GP/primary-care records where accessible.</div></div>
 
-      <div class="form-row">
-        <div class="label">Cancer / chemotherapy</div>
-        <select id="cancer"><option value="">Select…</option><option>Yes</option><option>No</option><option>Unknown</option></select>
-        <div class="help">Flag time-sensitive cancer care; optimisation should run in parallel and avoid unnecessary oncological delay.</div>
-      </div>
+      <div class="section">Anaemia screen</div>
+      <div class="field"><div class="row2">
+        <div><label for="ferritin">Ferritin (µg/L)</label><input id="ferritin" type="number" step="0.1" placeholder="optional"></div>
+        <div><label for="tsat">TSAT (%)</label><input id="tsat" type="number" step="0.1" placeholder="optional"></div>
+      </div></div>
+      <div class="field"><div class="row2">
+        <div><label for="crp">CRP (mg/L)</label><input id="crp" type="number" step="0.1" placeholder="optional"></div>
+        <div><label for="egfr">eGFR</label><input id="egfr" type="number" step="1" placeholder="optional"></div>
+      </div></div>
+      <div class="field"><div class="row2">
+        <div><label for="b12">Vitamin B12</label><select id="b12"><option value="">Select…</option><option>Normal</option><option>Low</option><option>Borderline</option><option>Not tested</option></select></div>
+        <div><label for="folate">Folate</label><select id="folate"><option value="">Select…</option><option>Normal</option><option>Low</option><option>Borderline</option><option>Not tested</option></select></div>
+      </div></div>
+      <div class="field"><div class="row2">
+        <div><label for="mcv">MCV</label><input id="mcv" type="number" step="0.1" placeholder="optional"></div>
+        <div><label for="counts">WBC / platelets / film</label><select id="counts"><option value="">Select…</option><option>All reassuring / no concern</option><option>Abnormal count(s) / abnormal film</option><option>Not yet reviewed</option></select></div>
+      </div><div class="hint">Normal MCV does not exclude iron deficiency. Abnormal counts/film should not be routed as simple iron deficiency.</div></div>
 
-      <div class="form-row">
-        <div class="label">CKD</div>
-        <select id="ckd"><option value="">Select…</option><option>Yes</option><option>No</option><option>Unknown</option></select>
-        <div class="help">May contribute to functional iron restriction. Significant anaemia / ESA questions need specialist input.</div>
-      </div>
+      <div class="section">Timing + treatment</div>
+      <div class="field"><div class="row2">
+        <div><label for="days">Days to surgery</label><input id="days" type="number" min="0" step="1" placeholder="optional"></div>
+        <div><label for="oral">Oral iron</label><select id="oral"><option value="">Select…</option><option>Not started</option><option>Taking & tolerated</option><option>Intolerant / unsuitable</option><option>Poor response after 2–4 weeks</option><option>Unknown</option></select></div>
+      </div></div>
 
-      <div class="form-row">
-        <div class="label">Bariatric / malabsorption</div>
-        <select id="bari"><option value="">Select…</option><option>Yes</option><option>No</option><option>Unknown</option></select>
-        <div class="help">Oral iron may be poorly absorbed; B12/folate or other deficiencies may coexist.</div>
-      </div>
-
-      <div class="form-row">
-        <div class="label">Refuses donor blood products</div>
-        <select id="refusal"><option value="">Select…</option><option>Yes</option><option>No</option><option>Unknown</option></select>
-        <div class="help">Needs early consultant anaesthesia + transfusion/haematology planning and explicit documentation of acceptable alternatives.</div>
-      </div>
-
-      <div class="form-row">
-        <div class="label">Known red-cell antibodies / difficult blood</div>
-        <select id="antib"><option value="">Select…</option><option>Yes</option><option>No</option><option>Unknown</option></select>
-        <div class="help">Notify the transfusion laboratory early; compatible units may require additional lead time.</div>
-      </div>
-
-      <div class="form-row">
-        <div class="label">Known sickle cell disease / significant haemoglobinopathy</div>
-        <select id="sickle"><option value="">Select…</option><option>Yes</option><option>No</option><option>Unknown</option></select>
-        <div class="help">Use the dedicated haematology/haemoglobinopathy pathway; generic Hb bands are not sufficient for transfusion planning.</div>
-      </div>
-
-      <div class="form-row">
-        <div class="label">Days to planned surgery</div>
-        <input id="days" type="number" min="0" step="1" placeholder="e.g. 21" />
-        <div class="help">Current CPOC: ≥4 weeks usually allows oral iron; &lt;4 weeks prompts consideration of IV iron or postponement. Follow current pre-op Hb-SOP.</div>
-      </div>
-
-      <div class="form-row">
-        <div class="label">Current oral-iron status</div>
-        <select id="oralStatus">
-          <option value="">Select…</option>
-          <option>Not started</option>
-          <option>Taking & tolerated</option>
-          <option>Intolerant / unsuitable</option>
-          <option>Poor response after 2–4 weeks</option>
-          <option>Unknown</option>
-        </select>
-        <div class="help">Helps decide whether the nurse should initiate/continue oral treatment or refer for IV-iron assessment.</div>
-      </div>
-
-      <div class="section-title">2. Start with Hb + trend</div>
-
-      <div class="form-row">
-        <div class="label">Current Hb (g/L)</div>
-        <input id="hb" type="number" min="0" step="1" placeholder="e.g. 108" />
-        <div class="help">Hb bands: ≥130; 120–129; 100–119; 80–99; &lt;80.</div>
-      </div>
-
-      <div class="form-row">
-        <div class="label">Previous Hb (ideally within ~6 months)</div>
-        <input id="prevHb" type="number" min="0" step="1" placeholder="optional" />
-        <div class="help">If no previous result is visible, check GP / primary-care records where accessible.</div>
-      </div>
-
-      <div class="form-row">
-        <div class="label">Hb trend</div>
-        <select id="trend">
-          <option value="">Select…</option>
-          <option>Stable / similar</option>
-          <option>Falling</option>
-          <option>Rising</option>
-          <option>No previous Hb available</option>
-          <option>Uncertain</option>
-        </select>
-        <div class="help">A falling trend can be more important than a single isolated Hb value.</div>
-      </div>
-
-      <div class="section-title">3. Ensure / enter full anaemia bundle</div>
-
-      <div class="form-row"><div class="label">MCV</div><input id="mcv" type="number" step="0.1"/><div class="help">Normal MCV does not exclude iron deficiency.</div></div>
-      <div class="form-row"><div class="label">MCH</div><input id="mch" type="number" step="0.1"/><div class="help">Low MCH can support iron-restricted erythropoiesis; do not use alone.</div></div>
-      <div class="form-row"><div class="label">WBC</div><select id="wbc"><option value="">Select…</option><option>Normal</option><option>Abnormal</option><option>Not available</option></select><div class="help">Abnormal counts with anaemia may indicate a broader haematological problem.</div></div>
-      <div class="form-row"><div class="label">Platelets</div><select id="plt"><option value="">Select…</option><option>Normal</option><option>Abnormal</option><option>Not available</option></select><div class="help">Multiple cytopenias / abnormal counts should not be managed as simple IDA.</div></div>
-      <div class="form-row"><div class="label">Ferritin (µg/L)</div><input id="ferritin" type="number" step="0.1"/><div class="help">&lt;30 strongly supports absolute iron deficiency; ferritin may rise with inflammation.</div></div>
-      <div class="form-row"><div class="label">TSAT (%)</div><input id="tsat" type="number" step="0.1"/><div class="help">&lt;20% suggests restricted available iron; interpret with ferritin, CRP, eGFR and context.</div></div>
-      <div class="form-row"><div class="label">CRP (mg/L)</div><input id="crp" type="number" step="0.1"/><div class="help">&gt;5 mg/L supports an inflammatory context when interpreting iron studies.</div></div>
-      <div class="form-row"><div class="label">eGFR</div><input id="egfr" type="number" step="1"/><div class="help">&lt;60 can support CKD / functional iron-restriction context.</div></div>
-      <div class="form-row"><div class="label">Vitamin B12</div><select id="b12"><option value="">Select…</option><option>Normal</option><option>Low</option><option>Borderline</option><option>Not tested</option></select><div class="help">Use local laboratory reference range.</div></div>
-      <div class="form-row"><div class="label">Folate</div><select id="folate"><option value="">Select…</option><option>Normal</option><option>Low</option><option>Borderline</option><option>Not tested</option></select><div class="help">Use local laboratory reference range.</div></div>
-      <div class="form-row"><div class="label">Reticulocyte Hb / CHr (if available)</div><select id="chr"><option value="">Select…</option><option>Normal</option><option>Low</option><option>Not done</option></select><div class="help">Low CHr/Ret-He supports iron-restricted erythropoiesis; optional where available.</div></div>
-      <div class="form-row"><div class="label">Blood film</div><select id="film"><option value="">Select…</option><option>Normal</option><option>Abnormal</option><option>Not done</option></select><div class="help">If abnormal, or if cytopenias/unclear anaemia are present, seek medical/haematology review.</div></div>
-      <div class="form-row"><div class="label">Haemolysis suspected / markers abnormal</div><select id="haem"><option value="">Select…</option><option>No</option><option>Yes</option><option>Not assessed</option></select><div class="help">If yes, do not route as simple IDA; seek medical/haematology review.</div></div>
+      <div class="section">Other considerations</div>
+      <div class="field"><div class="checkgrid">
+        <label class="check"><input id="cancer" type="checkbox"> Cancer / chemotherapy</label>
+        <label class="check"><input id="ckd" type="checkbox"> CKD</label>
+        <label class="check"><input id="bari" type="checkbox"> Bariatric / malabsorption</label>
+        <label class="check"><input id="refusal" type="checkbox"> Refuses donor blood</label>
+        <label class="check"><input id="antib" type="checkbox"> Red-cell antibodies / difficult blood</label>
+        <label class="check"><input id="sickle" type="checkbox"> Sickle cell / significant haemoglobinopathy</label>
+        <label class="check"><input id="haem" type="checkbox"> Haemolysis suspected</label>
+        <label class="check"><input id="ongoingLoss" type="checkbox"> Ongoing blood loss suspected</label>
+      </div></div>
     </section>
 
-    <section class="panel">
-      <div class="panel-title">Automatic nurse guidance</div>
-      <div class="outputs" id="outputs"></div>
-
-      <div class="special">
-        <h3>Auto-generated senior opinion question</h3>
-        <div class="box">
-          <div id="seniorTrigger" class="status">COMPLETE</div>
-          <div id="clinicalQuestion" class="question" style="margin-top:8px">Enter Hb to generate a clinical question.</div>
-          <div class="actions">
-            <button onclick="copyText('clinicalQuestion')">Copy question</button>
-          </div>
+    <section class="card">
+      <div class="card-head"><span class="num">2</span><h2>Interpret the pathway</h2><div class="card-sub">The pathway changes as results are added. It gives a provisional pattern even when the full screen is incomplete.</div></div>
+      <div class="pathway">
+        <div class="path-title">Pathway</div>
+        <div class="path-main">
+          <div class="bigstatus"><span id="overallStatus" class="status">START</span><strong id="overallTitle">Enter an Hb to begin</strong></div>
+          <div id="overallText" class="interpret">The tool will classify the Hb in context, look at the trend and show the next nurse action.</div>
         </div>
-      </div>
-
-      <div class="special">
-        <h3>Screen status / provisional interpretation</h3>
-        <div class="box">
-          <div id="screenStatus" class="status">COMPLETE</div>
-          <div id="screenInterpretation" class="question" style="margin-top:8px">Enter Hb.</div>
+        <div class="metrics">
+          <div class="metric"><span>Hb band</span><b id="mHb">—</b></div>
+          <div class="metric"><span>Trend</span><b id="mTrend">—</b></div>
+          <div class="metric"><span>Screen</span><b id="mScreen">—</b></div>
+          <div class="metric"><span>Likely pattern</span><b id="mPattern">—</b></div>
         </div>
+        <div id="missingBox" class="actionbox"><h3>What is still missing?</h3><div id="missingText">Enter an Hb first.</div></div>
+        <div id="nurseBox" class="actionbox green"><h3>What the nurse should do</h3><div id="nurseAction">Enter the available information.</div></div>
+        <div id="seniorBox" class="actionbox amber"><h3>When to seek senior / specialist review</h3><div id="seniorAction">The tool will generate an escalation trigger when indicated.</div></div>
+        <div id="pbmBox" class="actionbox"><h3>Perioperative / PBM handover</h3><div id="pbmAction">Select operation risk.</div></div>
       </div>
+    </section>
 
-      <div class="special">
-        <h3>Suggested note text – copy / edit into pre-op record</h3>
-        <div class="box">
-          <div id="noteText" class="note-box">Complete Hb and key fields to generate note text.</div>
-          <div class="actions">
-            <button onclick="copyText('noteText')">Copy note</button>
-            <button class="secondary" onclick="window.print()">Print / Save PDF</button>
-            <button class="secondary" onclick="resetForm()">Reset</button>
-          </div>
+    <section class="card">
+      <div class="card-head"><span class="num">3</span><h2>Nursing action & communication</h2><div class="card-sub">Generate a focused clinical question and copyable correspondence. Edit before sending.</div></div>
+      <div class="comms">
+        <div class="tabs">
+          <button class="tab active" data-tab="periop">Perioperative question</button>
+          <button class="tab" data-tab="gp">GP email</button>
+          <button class="tab" data-tab="team">Surgeon + anaesthetist</button>
+        </div>
+
+        <div id="periop" class="comm-panel active">
+          <div class="comm-title">Focused senior clinical question</div>
+          <div class="comm-note">Designed to ask a decision question rather than request generic “clearance”.</div>
+          <div id="periopText" class="richbox"></div>
+          <div class="buttons"><button onclick="copyRich('periopText')">Copy text</button></div>
+        </div>
+
+        <div id="gp" class="comm-panel">
+          <div class="comm-title">Copyable GP email</div>
+          <div class="comm-note">Major findings appear in bold when copied into applications that accept rich text, such as Outlook.</div>
+          <div id="gpText" class="richbox"></div>
+          <div class="buttons"><button onclick="copyRich('gpText')">Copy GP email</button></div>
+        </div>
+
+        <div id="team" class="comm-panel">
+          <div class="comm-title">Surgeon + anaesthetist / perioperative email trail</div>
+          <div class="comm-note">Use this when the Hb/risk combination needs a visible shared decision or a special blood-management issue is present.</div>
+          <div id="teamText" class="richbox"></div>
+          <div class="buttons"><button onclick="copyRich('teamText')">Copy email</button></div>
+        </div>
+
+        <div class="buttons" style="margin-top:14px">
+          <button class="alt" onclick="window.print()">Print / save PDF</button>
+          <button class="light" onclick="resetForm()">Reset</button>
         </div>
       </div>
     </section>
-  </div>
+  </main>
 
-  <div class="footnote">
-    Key timing rule: current CPOC 2025 recommends oral iron when ≥4 weeks remain (if suitable) and considering IV iron / postponement when surgery is within 4 weeks.
-    For local treatment, prescribing and infusion arrangements <strong>refer to current pre-op Hb-SOP</strong>.
-  </div>
-
-  <div class="sources">
-    Evidence basis: CPOC Guideline for the Management of Anaemia in the Perioperative Pathway, 2025;
-    current local pre-op Hb-SOP; and local governance ratification. This page is a static proof-of-concept and must be locally approved before clinical deployment.
-  </div>
+  <footer class="footer">
+    <div><b>Evidence/governance basis:</b> CPOC perioperative anaemia guideline 2025; BSH adult preoperative anaemia guideline 2024; current pre-op Hb-SOP and local transfusion/medicines governance. Hb &lt;130 g/L is an optimisation trigger for major/high surgery, not a universal cancellation or transfusion threshold.</div>
+    <div>Prototype · Adults only</div>
+  </footer>
 </div>
 
 <script>
-const ids = [
-  'risk','sex','cancer','ckd','bari','refusal','antib','sickle','days','oralStatus',
-  'hb','prevHb','trend','mcv','mch','wbc','plt','ferritin','tsat','crp','egfr',
-  'b12','folate','chr','film','haem'
-];
-
-ids.forEach(id => document.getElementById(id).addEventListener('input', update));
-ids.forEach(id => document.getElementById(id).addEventListener('change', update));
-
-function val(id){ return document.getElementById(id).value; }
-function num(id){
-  const x = parseFloat(val(id));
-  return Number.isFinite(x) ? x : null;
+const ids=['risk','hb','sex','prevHb','trend','ferritin','tsat','crp','egfr','b12','folate','mcv','counts','days','oral','cancer','ckd','bari','refusal','antib','sickle','haem','ongoingLoss'];
+ids.forEach(id=>{const el=document.getElementById(id);el.addEventListener('input',render);el.addEventListener('change',render)});
+const v=id=>document.getElementById(id).value;
+const checked=id=>document.getElementById(id).checked;
+function n(id){const x=parseFloat(v(id));return Number.isFinite(x)?x:null}
+function fmt(x,d=0){return x==null?'not available':Number(x).toFixed(d)}
+function statusClass(s){
+  if(['OK','ROUTINE','LOW','≥130','BUNDLE COMPLETE','NO AUTOMATIC SENIOR REVIEW'].includes(s))return'green';
+  if(['OPTIMISE','INTERMEDIATE','120–129','100–119','ABSOLUTE IRON DEFICIENCY','B12 / FOLATE'].includes(s))return'amber';
+  if(['SENIOR REVIEW','SAME-DAY REVIEW','SPECIALIST','80–99','<80','FALLING','OTHER / HAEMATOLOGICAL','SICKLE / HbPATHY'].includes(s))return'red';
+  return'';
 }
-function yes(id){ return val(id) === 'Yes'; }
-function fmt(x, digits=0){ return x == null ? 'not available' : Number(x).toFixed(digits); }
-
-function missingBundle(){
-  const missing = [];
-  if(num('mcv') == null) missing.push('MCV');
-  if(num('mch') == null) missing.push('MCH');
-  if(!val('wbc')) missing.push('WBC');
-  if(!val('plt')) missing.push('Platelets');
-  if(num('ferritin') == null) missing.push('Ferritin');
-  if(num('tsat') == null) missing.push('TSAT');
-  if(num('crp') == null) missing.push('CRP');
-  if(num('egfr') == null) missing.push('eGFR');
-  if(!val('b12') || val('b12') === 'Not tested') missing.push('B12');
-  if(!val('folate') || val('folate') === 'Not tested') missing.push('Folate');
-  return missing;
+function hbBand(){const h=n('hb');if(h==null)return'—';if(h>=130)return'≥130';if(h>=120)return'120–129';if(h>=100)return'100–119';if(h>=80)return'80–99';return'<80'}
+function trendLabel(){const t=v('trend');if(!t)return'—';if(t==='Falling')return'FALLING';if(t==='No previous Hb available')return'NO PRIOR Hb';if(t==='Stable / similar')return'STABLE';return t.toUpperCase()}
+function missing(){
+  const h=n('hb');if(h==null||h>=130)return[];
+  const a=[];if(n('mcv')==null)a.push('MCV');if(!v('counts')||v('counts')==='Not yet reviewed')a.push('WBC/platelets review');
+  if(n('ferritin')==null)a.push('ferritin');if(n('tsat')==null)a.push('TSAT');if(n('crp')==null)a.push('CRP');if(n('egfr')==null)a.push('eGFR');
+  if(!v('b12')||v('b12')==='Not tested')a.push('B12');if(!v('folate')||v('folate')==='Not tested')a.push('folate');return a;
 }
-
-function operationStatus(){
-  const r = val('risk');
-  if(!r) return ['COMPLETE','Select Low / Intermediate / Major-High.'];
-  if(r==='Low') return ['LOW','Low-risk pathway. Known anaemia still needs investigation/treatment; stable mild anaemia usually does not require delay for low-risk surgery.'];
-  if(r==='Intermediate') return ['INTERMEDIATE','Intermediate pathway. Apply Hb band + trend + laboratory pattern. Escalate if Hb is markedly low, falling or cause is unclear.'];
-  if(r==='Major / High') return ['MAJOR/HIGH','Major/high pathway. Hb <130 g/L activates full anaemia optimisation and a documented perioperative plan.'];
-  return ['UNCERTAIN','Ask the perioperative/anaesthetic team to assign the category rather than asking the nurse to estimate blood loss.'];
-}
-
-function hbStatus(){
-  const h = num('hb');
-  if(h == null) return ['COMPLETE','Enter current Hb.'];
-  const sex = val('sex');
-  if(h >= 130) return ['≥130','No Hb-triggered anaemia pathway. Continue procedure-specific PBM if relevant.'];
-  if(h >= 120){
-    if(sex==='Male') return ['120–129','Formal anaemia in a male: complete the bundle and treat the cause.'];
-    if(sex==='Female') return ['120–129','Female: not formal anaemia by the sex-specific threshold, but MAJOR/HIGH surgery still uses Hb <130 g/L as an optimisation trigger.'];
-    return ['120–129','Hb <130 g/L is an optimisation trigger before MAJOR/HIGH surgery.'];
-  }
-  if(h >= 100) return ['100–119','Anaemia in all adults: complete bundle, classify and treat cause. MAJOR/HIGH surgery → clinician/perioperative review.'];
-  if(h >= 80) return ['80–99','Marked anaemia: high-priority work-up. Escalate if MAJOR/HIGH, time-sensitive cancer, falling Hb or significant clinical concern.'];
-  return ['<80','Hb <80 g/L: same-day senior pre-op/perioperative review. This is not an automatic transfusion order.'];
-}
-
-function trendStatus(){
-  const t = val('trend');
-  if(!t) return ['COMPLETE','Select Hb trend and enter a previous Hb if available.'];
-  if(t==='Falling') return ['FALLING','Escalate: compare previous Hb, look for ongoing blood loss/haemolysis and ensure clinician review. Trend can be more important than a single result.'];
-  if(t==='No previous Hb available') return ['NO PRIOR Hb','No prior Hb visible: check GP/primary-care records where accessible. If still unavailable, document that chronicity is unknown.'];
-  if(t==='Stable / similar') return ['STABLE','Stable trend: still identify and treat the cause, but longstanding stable anaemia may reduce urgency compared with a new/falling anaemia.'];
-  return ['OTHER','Record previous Hb/date where available and interpret with the current Hb.'];
-}
-
-function bundleStatus(){
-  const h = num('hb');
-  if(h == null) return ['COMPLETE','Enter current Hb.'];
-  if(h >= 130) return ['NOT TRIGGERED','Hb ≥130: no routine anaemia bundle from Hb alone unless another indication exists.'];
-  const missing = missingBundle();
-  if(missing.length) return ['INCOMPLETE',`INITIATE missing anaemia-bundle tests: ${missing.join(', ')}. Add CHr/reticulocytes where available; blood film/targeted tests if counts are abnormal or pattern unclear.`];
-  return ['BUNDLE COMPLETE','Core bundle present: classify pattern and follow the action below.'];
-}
-
+function screenLabel(){const h=n('hb');if(h==null)return'—';if(h>=130)return'Not Hb-triggered';return missing().length?'INCOMPLETE':'BUNDLE COMPLETE'}
 function pattern(){
-  const h = num('hb');
-  if(h == null) return ['COMPLETE','Enter Hb and available anaemia-screen results. A provisional interpretation will appear even if the screen is incomplete.'];
-
-  const f = num('ferritin'), t = num('tsat'), c = num('crp'), e = num('egfr');
-  const missing = missingBundle();
-  const haemFlag = val('wbc')==='Abnormal' || val('plt')==='Abnormal' || val('film')==='Abnormal' || val('haem')==='Yes';
-
-  let status = 'UNCLEAR', text = '';
-  if(yes('sickle')){
-    status='SICKLE / HbPATHY';
-    text='Known sickle cell/significant haemoglobinopathy: use the dedicated specialist pathway; generic Hb thresholds are not sufficient for transfusion planning.';
-  } else if(haemFlag){
-    status='OTHER / HAEM';
-    text='Interpretation so far: anaemia with abnormal counts/film or suspected haemolysis. Do not manage as simple IDA; medical/haematology review is required.';
-  } else if(val('b12')==='Low' || val('folate')==='Low'){
-    status='B12 / FOLATE';
-    text='Interpretation so far: B12 and/or folate deficiency is present.';
-  } else if(f != null && f < 30){
-    status='ABSOLUTE ID';
-    text='Interpretation so far: absolute iron deficiency / IDA is likely because ferritin is <30 micrograms/L.';
-  } else if(t != null && t < 20 && f != null && f >= 30 && (yes('ckd') || yes('cancer') || (c != null && c > 5) || (e != null && e < 60))){
-    status='FUNCTIONAL / MIXED';
-    text='Interpretation so far: functional/mixed iron restriction is possible (low TSAT with inflammatory/CKD/cancer context).';
-  } else if(f != null && f > 100 && t != null && t >= 20){
-    status='OTHER / ID UNLIKELY';
-    text='Iron deficiency is less likely from the entered ferritin/TSAT. Review non-iron causes.';
-  } else {
-    status='UNCLEAR';
-    text='Interpretation so far: insufficient evidence to classify confidently. Use MCV/MCH as guides, not gatekeepers.';
-  }
-  if(missing.length && status!=='SICKLE / HbPATHY' && status!=='OTHER / HAEM'){
-    text += ` Still missing: ${missing.join(', ')}. Complete these where appropriate before final review.`;
-  } else if(!missing.length && !['SICKLE / HbPATHY','OTHER / HAEM'].includes(status)){
-    text += ' Core bundle is complete.';
-  }
-  return [status,text];
+  const h=n('hb');if(h==null)return{status:'—',text:'Enter Hb and available blood results.'};
+  if(checked('sickle'))return{status:'SICKLE / HbPATHY',text:'Known sickle cell/significant haemoglobinopathy: use the specialist haemoglobinopathy/transfusion pathway.'};
+  if(v('counts')==='Abnormal count(s) / abnormal film'||checked('haem'))return{status:'OTHER / HAEMATOLOGICAL',text:'Abnormal counts/film or suspected haemolysis: do not route as simple iron deficiency; medical/haematology review is required.'};
+  if(v('b12')==='Low'||v('folate')==='Low')return{status:'B12 / FOLATE',text:'B12 and/or folate deficiency is present. Use the current locally approved replacement/referral pathway.'};
+  const f=n('ferritin'),t=n('tsat'),c=n('crp'),e=n('egfr');
+  if(f!=null&&f<30)return{status:'ABSOLUTE IRON DEFICIENCY',text:'Absolute iron deficiency / IDA is likely because ferritin is <30 µg/L. Treat iron deficiency and investigate the source in parallel.'};
+  if(t!=null&&t<20&&f!=null&&f>=30&&(checked('ckd')||checked('cancer')||(c!=null&&c>5)||(e!=null&&e<60)))return{status:'FUNCTIONAL / MIXED',text:'Functional/mixed iron restriction is possible: TSAT <20% with an inflammatory/CKD/cancer context. IV iron is not automatic; clinician review is required.'};
+  if(f!=null&&f>100&&t!=null&&t>=20)return{status:'IRON DEFICIENCY LESS LIKELY',text:'Iron deficiency is less likely from the entered ferritin/TSAT. Review other causes of anaemia.'};
+  return{status:'UNCLEAR',text:'The available results do not yet classify the anaemia confidently. Complete the missing screen and use MCV as a guide, not a gatekeeper.'};
 }
-
+function seniorDecision(){
+  const h=n('hb'),r=v('risk'),t=v('trend');if(h==null)return{status:'—',text:'Enter Hb.'};
+  if(checked('sickle'))return{status:'SPECIALIST',text:'Early haematology/haemoglobinopathy + transfusion planning.'};
+  if(v('counts')==='Abnormal count(s) / abnormal film'||checked('haem'))return{status:'SPECIALIST',text:'Medical/haematology review because of abnormal counts/film or suspected haemolysis.'};
+  if(checked('refusal')||checked('antib'))return{status:'SENIOR REVIEW',text:'Early consultant anaesthesia + transfusion laboratory ± haematology planning.'};
+  if(h<80)return{status:'SAME-DAY REVIEW',text:'Hb <80 g/L: same-day senior pre-op/perioperative review.'};
+  if(t==='Falling'&&h<130)return{status:'SENIOR REVIEW',text:'Falling Hb <130 g/L: senior review of significance, source and surgery timing.'};
+  if(r==='Major / High'&&h<100)return{status:'SENIOR REVIEW',text:'Hb <100 g/L before major/high surgery: consultant/perioperative review.'};
+  if(r==='Major / High'&&checked('cancer')&&h<130)return{status:'SENIOR REVIEW',text:'Major/high time-sensitive cancer surgery with Hb <130: senior decision balancing optimisation against oncological delay.'};
+  return{status:'NO AUTOMATIC SENIOR REVIEW',text:'Nurse-led pathway may continue. Escalate if the cause remains unexplained, treatment fails or new clinical concerns emerge.'};
+}
 function nurseAction(){
-  const [p] = pattern();
-  if(p==='COMPLETE') return ['COMPLETE','First complete enough of the anaemia screen to identify the likely pattern.'];
-
-  const d = num('days');
-  const oral = val('oralStatus');
-  const oralSuitable = ['Not started','Taking & tolerated','Unknown',''].includes(oral) && !yes('bari');
-
-  if(p==='ABSOLUTE ID'){
-    if((d==null || d>=28) && oralSuitable && !['Intolerant / unsuitable','Poor response after 2–4 weeks'].includes(oral)){
-      return ['IRON PATHWAY',
-        'NURSE ACTION: follow the current pre-op Hb-SOP to START / CONTINUE oral iron if within the nurse-led protocol; give approved iron advice; arrange repeat FBC in 2–4 weeks; document the result owner and ensure the cause of iron deficiency is being investigated.'
-      ];
-    }
-    return ['IRON PATHWAY',
-      'NURSE ACTION: REFER NOW for IV-iron assessment under the current pre-op Hb-SOP if surgery is <4 weeks, oral iron is intolerant/ineffective, or malabsorption makes oral treatment unsuitable. Do not independently select IV iron outside the authorised pathway. Arrange a repeat-Hb/review plan.'
-    ];
+  const h=n('hb');if(h==null)return'Enter Hb and available blood results.';if(h>=130)return'No Hb-triggered anaemia action. Continue routine pre-op assessment and procedure-specific PBM.';
+  const p=pattern(),miss=missing(),days=n('days'),oral=v('oral');
+  if(p.status==='ABSOLUTE IRON DEFICIENCY'){
+    const unsuitable=['Intolerant / unsuitable','Poor response after 2–4 weeks'].includes(oral)||checked('bari');
+    if(unsuitable||(days!=null&&days<28))return'Refer now for IV-iron assessment under the current pre-op Hb-SOP. Confirm/complete the anaemia screen, arrange a repeat-Hb/review plan and ensure the source of iron deficiency is being investigated.';
+    return'Follow the current pre-op Hb-SOP to start or continue oral iron if within the nurse-led protocol; give approved iron advice; arrange repeat FBC in 2–4 weeks; document the result owner; and ensure the source of iron deficiency is being investigated.';
   }
-  if(p==='B12 / FOLATE'){
-    return ['B12/FOLATE PATHWAY','NURSE ACTION: initiate the locally approved B12/folate replacement or referral pathway. If B12 deficiency is possible, ensure B12 is addressed before folate alone. Document cause/follow-up.'];
-  }
-  if(p==='FUNCTIONAL / MIXED'){
-    return ['CLINICIAN-LED','NURSE ACTION: complete missing tests and send the results to the appropriate clinician. Do not independently choose IV iron or ESA for functional/mixed or CKD-associated patterns.'];
-  }
-  if(['OTHER / HAEM','SICKLE / HbPATHY'].includes(p)){
-    return ['SPECIALIST','NURSE ACTION: do not manage as simple IDA. Follow the appropriate specialist/referral pathway.'];
-  }
-  return ['CAUSE-DIRECTED','NURSE ACTION: complete missing tests and escalate if the cause remains unclear, Hb is low/falling, or the response to treatment is inadequate.'];
+  if(p.status==='B12 / FOLATE')return'Initiate the locally approved B12/folate replacement or referral pathway. If B12 deficiency is possible, address B12 before folate alone. Document follow-up.';
+  if(p.status==='FUNCTIONAL / MIXED')return'Complete missing tests and send results for clinician/perioperative review. Do not independently select IV iron or ESA for a functional/mixed or CKD-associated pattern.';
+  if(['OTHER / HAEMATOLOGICAL','SICKLE / HbPATHY'].includes(p.status))return'Do not manage as simple iron deficiency. Follow the specialist/referral pathway.';
+  return miss.length?`Request/obtain the missing anaemia-screen results: ${miss.join(', ')}. Reassess the pattern when available and escalate if Hb is low/falling or the cause remains unclear.`:'The bundle is complete but the pattern remains unclear. Send results for clinician review if anaemia is marked, falling or unexplained.';
 }
-
-function escalation(){
-  const h=num('hb'), r=val('risk'), t=val('trend');
-  const haemFlag = val('wbc')==='Abnormal' || val('plt')==='Abnormal' || val('film')==='Abnormal' || val('haem')==='Yes';
-  if(yes('sickle')) return ['REFER','MUST REFER: known sickle cell/significant haemoglobinopathy → haematology/haemoglobinopathy + transfusion planning.'];
-  if(haemFlag) return ['REFER','MUST REFER: cytopenia(s), abnormal blood film and/or suspected haemolysis → medical/haematology review; do not manage as simple iron deficiency.'];
-  if(yes('refusal') || yes('antib')) return ['REFER','MUST ESCALATE EARLY: blood refusal and/or difficult antibodies → consultant anaesthesia + transfusion laboratory ± haematology planning.'];
-  if(h==null) return ['COMPLETE','Complete Hb, trend and the key specialist flags.'];
-  if(h<80) return ['SAME-DAY','MUST ESCALATE SAME DAY: Hb <80 g/L. Ask a senior perioperative/anaesthetic clinician to review severity, cause, trend and surgery timing.'];
-  if(t==='Falling' || (h<100 && r==='Major / High') || (h<130 && r==='Major / High' && yes('cancer'))){
-    return ['CLINICIAN REVIEW','SEEK SENIOR OPINION: Hb is falling, Hb <100 g/L in MAJOR/HIGH surgery, or Hb <130 g/L in a MAJOR/HIGH cancer pathway. Send the generated clinical question below.'];
-  }
-  return ['ROUTINE','Nurse-led pathway may continue. Escalate later if the pattern remains unexplained, treatment fails, or new clinical concerns emerge.'];
+function pbmAction(){const r=v('risk');if(!r)return'Select operation risk.';if(r==='Major / High')return'Major/high: hand over the anaemia status to anaesthesia/surgery; flag TXA and cell-salvage consideration under current policy, blood availability, refusal/antibodies and postoperative Hb/follow-up.';if(r==='Intermediate')return'Intermediate: ensure relevant anaemia and blood-product flags reach the perioperative team; apply procedure-specific PBM.';if(r==='Uncertain')return'Ask the perioperative/anaesthetic team to assign the risk category.';return'Low: standard PBM. Known anaemia should still be investigated and treated.'}
+function overall(){
+  const h=n('hb');if(h==null)return{status:'START',title:'Enter an Hb to begin',text:'The tool will classify the Hb in context, look at the trend and show the next nurse action.'};
+  const sd=seniorDecision(),p=pattern(),r=v('risk');
+  if(sd.status==='SAME-DAY REVIEW'||sd.status==='SPECIALIST')return{status:sd.status,title:'Escalation required',text:sd.text};
+  if(sd.status==='SENIOR REVIEW')return{status:'SENIOR REVIEW',title:'Senior decision required',text:sd.text};
+  if(h<130&&r==='Major / High')return{status:'OPTIMISE',title:'Major/high surgery – optimisation pathway',text:`Hb ${fmt(h)} g/L activates the full pre-operative anaemia pathway. ${p.text}`};
+  if(h<130)return{status:'OPTIMISE',title:'Anaemia / optimisation required',text:p.text};
+  return{status:'OK',title:'No Hb-triggered anaemia pathway',text:'Hb is ≥130 g/L. Continue routine pre-operative assessment and procedure-specific PBM.'};
 }
-
-function pbm(){
-  const r=val('risk');
-  if(!r) return ['COMPLETE','Select operation risk.'];
-  if(r==='Major / High') return ['ENHANCED PBM','MAJOR/HIGH: hand over anaemia status to anaesthesia/surgery; flag current NICE/CPOC blood-conservation plan, including TXA consideration, cell-salvage consideration where appropriate, blood availability, refusal/antibodies and postoperative Hb follow-up.'];
-  if(r==='Intermediate') return ['PBM FLAG','Intermediate surgery: ensure relevant anaemia and blood-product flags reach the perioperative team; apply procedure-specific PBM.'];
-  return ['STANDARD','Low-risk surgery: standard PBM. Stable mild anaemia generally continues through investigation/treatment without routine delay.'];
+function clinicalQuestion(){
+  const h=n('hb'),p=n('prevHb'),t=v('trend'),r=v('risk')||'elective',pat=pattern().status;if(h==null)return'<p>Enter an Hb to generate a focused clinical question.</p>';
+  const prev=p==null?'no previous Hb available':`previous Hb <strong>${fmt(p)} g/L</strong>`;
+  if(checked('sickle'))return`<p><strong>Clinical question:</strong> Known sickle cell/significant haemoglobinopathy. Current Hb <strong>${fmt(h)} g/L</strong>; ${prev}; trend <strong>${t||'unknown'}</strong>.</p><p>Please advise the specialist perioperative/transfusion plan and whether any further optimisation is required before this elective surgery.</p>`;
+  if(v('counts')==='Abnormal count(s) / abnormal film'||checked('haem'))return`<p><strong>Clinical question:</strong> Anaemia with abnormal counts/blood film and/or suspected haemolysis. Current Hb <strong>${fmt(h)} g/L</strong>; ${prev}; trend <strong>${t||'unknown'}</strong>.</p><p>Please advise the required medical/haematology investigation, urgency of referral and any implications for the planned surgery.</p>`;
+  if(checked('refusal')||checked('antib')){const issue=[checked('refusal')?'refusal of donor blood':null,checked('antib')?'red-cell antibodies / difficult blood':null].filter(Boolean).join(' and ');return`<p><strong>Clinical question:</strong> Patient has <strong>${issue}</strong>. Current Hb <strong>${fmt(h)} g/L</strong>.</p><p>Please advise the pre-operative blood-conservation / compatible-blood plan, acceptable alternatives and any additional optimisation required before surgery.</p>`}
+  if(h<80)return`<p><strong>Clinical question:</strong> Hb is <strong>${fmt(h)} g/L</strong> before ${r} surgery; ${prev}; trend <strong>${t||'unknown'}</strong>. Provisional pattern: <strong>${pat}</strong>.</p><p>Please review severity/cause, need for urgent further investigation or treatment, and whether surgery should proceed, be optimised or be rescheduled.</p>`;
+  if(h<100&&r==='Major / High')return`<p><strong>Clinical question:</strong> Hb is <strong>${fmt(h)} g/L</strong> before <strong>MAJOR/HIGH</strong> elective surgery; ${prev}; trend <strong>${t||'unknown'}</strong>. Provisional pattern: <strong>${pat}</strong>.</p><p>Please advise whether additional optimisation/investigation is required and whether the planned timing remains appropriate.</p>`;
+  if(t==='Falling'&&h<130)return`<p><strong>Clinical question:</strong> Hb is falling: current <strong>${fmt(h)} g/L</strong>${p==null?'':` from <strong>${fmt(p)} g/L</strong>`}. Provisional pattern: <strong>${pat}</strong>.</p><p>Please review the significance of the fall, exclude ongoing blood loss/haemolysis where appropriate, and advise whether further investigation or surgery-timing review is required.</p>`;
+  if(h<130&&r==='Major / High'&&checked('cancer'))return`<p><strong>Clinical question:</strong> Hb is <strong>${fmt(h)} g/L</strong> before <strong>MAJOR/HIGH time-sensitive cancer surgery</strong>. Provisional pattern: <strong>${pat}</strong>.</p><p>Please advise the balance between further optimisation and avoiding oncological delay, and confirm the planned timing.</p>`;
+  return`<p><strong>No automatic senior review is generated by the entered Hb/risk data.</strong></p><p>Continue the nurse-led pre-op Hb-SOP. Seek senior opinion if the cause remains unexplained, treatment response is inadequate, or clinical/surgical concerns emerge.</p>`;
 }
-
-function documentation(){
-  const h=num('hb'), r=val('risk');
-  if(h==null || !r) return ['COMPLETE','Enter operation risk and Hb.'];
-  if(h<130 || r==='Major / High' || yes('refusal') || yes('antib') || yes('cancer') || yes('ckd') || yes('bari') || yes('sickle')){
-    return ['DOCUMENT PLAN',"MUST DOCUMENT: current Hb; previous Hb/date or 'no prior Hb found'; trend; operation risk; anaemia-screen results and any missing tests; provisional pattern; action started; repeat-Hb date; named owner; referrals; and special flags. Copy/edit the auto-note below."];
-  }
-  return ['STANDARD','Standard pre-op documentation. Any abnormal result still needs a named owner and follow-up plan.'];
+function gpEmail(){
+  const h=n('hb'),p=n('prevHb'),t=v('trend'),pat=pattern().status,miss=missing(),days=n('days');if(h==null)return'<p>Enter an Hb to generate the GP email.</p>';
+  const action=nurseAction(),reason=checked('ongoingLoss')?'Possible ongoing blood loss has also been flagged.':'';
+  let req=[];if(pat==='ABSOLUTE IRON DEFICIENCY')req.push('Please review/investigate the cause of the iron deficiency and source of blood loss as appropriate, in line with the local pathway.');else req.push('Please review for contributing causes of the anaemia as clinically appropriate.');
+  if(pat==='ABSOLUTE IRON DEFICIENCY')req.push('Please support/continue iron treatment and monitoring where this sits within primary care, in accordance with the current local formulary/pathway.');
+  if(miss.length)req.push(`The following anaemia-screen items are not yet available in our record: ${miss.join(', ')}.`);
+  if(t==='No previous Hb available')req.push('If available, please share a previous Hb result to help establish chronicity.');
+  if(checked('cancer'))req.push('This is a cancer/time-sensitive pathway; please avoid delay in communicating relevant findings.');
+  const detail=[n('ferritin')!=null?`ferritin <strong>${fmt(n('ferritin'),1)} µg/L</strong>`:null,n('tsat')!=null?`TSAT <strong>${fmt(n('tsat'),1)}%</strong>`:null].filter(Boolean).join(', ');
+  return`<p><strong>Subject: Pre-operative anaemia identified – request for review / optimisation</strong></p><p>Dear Colleague,</p>
+  <p>During pre-operative assessment, the patient was found to have an Hb of <strong>${fmt(h)} g/L</strong>${p==null?'':`, with a previous Hb of <strong>${fmt(p)} g/L</strong>`}. The recorded trend is <strong>${t||'not yet established'}</strong>.</p>
+  <p>The available anaemia screen suggests <strong>${pat}</strong>${detail?` (${detail})`:''}. ${reason}</p>
+  <p><strong>Pre-op action:</strong> ${action}</p>
+  <p>The operation is classified as <strong>${v('risk')||'risk category not yet entered'}</strong>${days==null?'':` and is currently planned in approximately <strong>${fmt(days)} days</strong>`}.</p>
+  <p>Please could you:</p><ul>${req.map(x=>`<li>${x}</li>`).join('')}</ul>
+  <p>The pre-operative team will continue to coordinate perioperative review as required. Please send any relevant results or treatment information back to the pre-op service.</p>
+  <p>Kind regards,<br>Pre-operative Assessment Team</p>`;
 }
-
-const rows = [
-  ['Operation risk',operationStatus],
-  ['Hb band',hbStatus],
-  ['Hb trend',trendStatus],
-  ['Anaemia bundle',bundleStatus],
-  ['Likely anaemia pattern',pattern],
-  ['Nurse may initiate',nurseAction],
-  ['Escalate to clinician / specialist',escalation],
-  ['Perioperative / PBM handover',pbm],
-  ['Documentation / ownership',documentation]
-];
-
-function statusClass(status){
-  const green = ['LOW','≥130','STABLE','ROUTINE','STANDARD','NOT TRIGGERED','BUNDLE COMPLETE','OTHER / ID UNLIKELY'];
-  const yellow = ['INTERMEDIATE','120–129','100–119','INCOMPLETE','ABSOLUTE ID','IRON PATHWAY','B12 / FOLATE','B12/FOLATE PATHWAY','PBM FLAG','DOCUMENT PLAN'];
-  const amber = ['MAJOR/HIGH','80–99','FUNCTIONAL / MIXED','CLINICIAN-LED','CLINICIAN REVIEW','ENHANCED PBM'];
-  const red = ['<80','FALLING','SAME-DAY','REFER','OTHER / HAEM','SICKLE / HbPATHY','SPECIALIST'];
-  if(green.includes(status)) return 'green';
-  if(yellow.includes(status)) return 'yellow';
-  if(amber.includes(status)) return 'amber';
-  if(red.includes(status)) return 'red';
-  return '';
+function teamEmail(){
+  const h=n('hb'),p=n('prevHb'),pat=pattern().status,sd=seniorDecision(),days=n('days');if(h==null)return'<p>Enter an Hb to generate the team email.</p>';
+  return`<p><strong>Subject: Pre-operative anaemia – shared perioperative decision requested</strong></p><p>Dear Surgical / Anaesthetic Team,</p>
+  <p>Pre-operative assessment has identified Hb <strong>${fmt(h)} g/L</strong>${p==null?'':` (previous <strong>${fmt(p)} g/L</strong>)`}; trend <strong>${v('trend')||'not yet established'}</strong>.</p>
+  <p>Operation PBM risk: <strong>${v('risk')||'not entered'}</strong>${days==null?'':`; planned surgery in approximately <strong>${fmt(days)} days</strong>`}. Provisional anaemia pattern: <strong>${pat}</strong>.</p>
+  <p><strong>Action initiated by pre-op:</strong> ${nurseAction()}</p><p><strong>Escalation status:</strong> ${sd.status} – ${sd.text}</p>
+  ${checked('cancer')?'<p><strong>Cancer/time-sensitive pathway:</strong> please explicitly balance optimisation against harm from delay.</p>':''}
+  ${checked('refusal')?'<p><strong>Blood refusal:</strong> accepted blood products/alternatives require explicit documentation and early planning.</p>':''}
+  ${checked('antib')?'<p><strong>Known antibodies/difficult blood:</strong> transfusion-laboratory lead time and component plan require confirmation.</p>':''}
+  <p><strong>Decision requested:</strong> please confirm whether the current operation timing remains appropriate, what further optimisation/investigation is required, and whether any enhanced PBM plan should be documented before surgery.</p>
+  <p>Kind regards,<br>Pre-operative Assessment Team</p>`;
 }
-
-function seniorQuestion(){
-  const h=num('hb'), p=num('prevHb'), t=val('trend'), r=val('risk');
-  const pat=pattern()[0];
-  const haemFlag = val('wbc')==='Abnormal' || val('plt')==='Abnormal' || val('film')==='Abnormal' || val('haem')==='Yes';
-
-  let trigger='NOT AUTOMATIC', q='No automatic senior opinion is generated by the entered Hb/risk data. Continue the nurse-led pre-op Hb-SOP and escalate if the pattern remains unexplained or response is inadequate.';
-  if(h==null) return ['COMPLETE','Enter Hb to generate a clinical question.'];
-
-  if(yes('sickle')){
-    trigger='YES – URGENT / EARLY';
-    q=`Known sickle cell/significant haemoglobinopathy. Hb ${fmt(h)} g/L; previous Hb ${p==null?'not available':fmt(p)+' g/L'}; trend: ${t||'unknown'}. Please advise the specialist perioperative/transfusion plan and whether further optimisation is required before this elective surgery.`;
-  } else if(haemFlag){
-    trigger='YES – URGENT / EARLY';
-    q=`Anaemia with abnormal blood counts / blood film and/or suspected haemolysis. Hb ${fmt(h)} g/L; previous Hb ${p==null?'not available':fmt(p)+' g/L'}; trend: ${t||'unknown'}. Please advise the required medical/haematology investigation, urgency of referral and any implications for planned surgery.`;
-  } else if(yes('refusal') || yes('antib')){
-    trigger='YES – URGENT / EARLY';
-    const issues=[yes('refusal')?'refusal of donor blood':null,yes('antib')?'known red-cell antibodies / difficult blood':null].filter(Boolean).join(' and ');
-    q=`Patient has ${issues}. Hb ${fmt(h)} g/L. Please advise the pre-operative blood-conservation / compatible-blood plan, acceptable alternatives and any additional optimisation required before surgery.`;
-  } else if(h<80){
-    trigger='YES – URGENT / EARLY';
-    q=`Hb is ${fmt(h)} g/L (${p==null?'no previous Hb available':'previous '+fmt(p)+' g/L'}; trend: ${t||'unknown'}) before ${r||'elective'} surgery. Likely pattern so far: ${pat}. Please review severity/cause, need for further urgent investigation or treatment, and whether surgery should proceed, be optimised or be rescheduled.`;
-  } else if(h<100 && r==='Major / High'){
-    trigger='YES – SENIOR OPINION';
-    q=`Hb is ${fmt(h)} g/L before MAJOR/HIGH elective surgery (${p==null?'no previous Hb available':'previous '+fmt(p)+' g/L'}; trend: ${t||'unknown'}). Likely pattern so far: ${pat}. Please advise whether additional optimisation/investigation is required and whether the planned timing remains appropriate.`;
-  } else if(t==='Falling' && h<130){
-    trigger='YES – SENIOR OPINION';
-    q=`Hb is falling: current ${fmt(h)} g/L${p==null?'; previous value not available in current record':' from previous '+fmt(p)+' g/L'}. Likely pattern so far: ${pat}. Please review the significance of the fall, exclude ongoing blood loss/haemolysis where appropriate, and advise whether further investigation or surgery-timing review is required.`;
-  } else if(h<130 && r==='Major / High' && yes('cancer')){
-    trigger='YES – SENIOR OPINION';
-    q=`Hb is ${fmt(h)} g/L before MAJOR/HIGH time-sensitive cancer surgery. Likely pattern so far: ${pat}. Please advise the balance between further optimisation and avoiding oncological delay, and confirm the planned timing.`;
-  }
-  return [trigger,q];
+function render(){
+  const o=overall(),sd=seniorDecision(),pat=pattern();
+  const os=document.getElementById('overallStatus');os.textContent=o.status;os.className='status '+statusClass(o.status);
+  document.getElementById('overallTitle').textContent=o.title;document.getElementById('overallText').textContent=o.text;
+  document.getElementById('mHb').textContent=hbBand();document.getElementById('mTrend').textContent=trendLabel();document.getElementById('mScreen').textContent=screenLabel();document.getElementById('mPattern').textContent=pat.status;
+  const miss=missing();document.getElementById('missingText').textContent=n('hb')==null?'Enter an Hb first.':n('hb')>=130?'No routine Hb-triggered anaemia bundle from Hb alone.':miss.length?`Still required / not yet available: ${miss.join(', ')}. The current interpretation is provisional: ${pat.status}.`:`Core anaemia bundle is complete. Current interpretation: ${pat.status}.`;
+  document.getElementById('nurseAction').textContent=nurseAction();document.getElementById('seniorAction').textContent=sd.text;
+  document.getElementById('seniorBox').className='actionbox '+(sd.status==='SAME-DAY REVIEW'||sd.status==='SPECIALIST'?'red':sd.status==='SENIOR REVIEW'?'amber':'green');
+  document.getElementById('pbmAction').textContent=pbmAction();
+  document.getElementById('periopText').innerHTML=clinicalQuestion();document.getElementById('gpText').innerHTML=gpEmail();document.getElementById('teamText').innerHTML=teamEmail();
 }
-
-function screenInterpretation(){
-  const h=num('hb');
-  if(h==null) return ['COMPLETE','Enter Hb.'];
-  if(h>=130) return ['Hb ≥130 – no Hb-triggered bundle','No routine Hb-triggered anaemia screen from Hb alone.'];
-  const missing=missingBundle();
-  const pat=pattern()[0];
-  if(missing.length) return ['INCOMPLETE',`Interpretation so far: ${pat}. Missing anaemia-screen items: ${missing.join(', ')}. The nurse should request/obtain these where permitted by the current pre-op Hb-SOP, then reassess the pattern.`];
-  return ['BUNDLE COMPLETE',`Anaemia bundle complete. Interpretation: ${pat}.`];
-}
-
-function noteText(){
-  const h=num('hb');
-  if(h==null) return 'Complete Hb and key fields to generate note text.';
-  const p=num('prevHb'), missing=missingBundle(), pat=pattern()[0], act=nurseAction()[1], esc=escalation()[0];
-  const parts = [
-    `Pre-operative anaemia/Hb review.`,
-    `Operation PBM risk: ${val('risk')||'not entered'}.`,
-    `Current Hb ${fmt(h)} g/L; previous Hb ${p==null?'not available in current record':fmt(p)+' g/L'}; trend: ${val('trend')||'not entered'}.`,
-    `Hb interpretation: ${hbStatus()[0]}.`,
-    `Anaemia screen: MCV ${num('mcv')==null?'not available':fmt(num('mcv'),1)}, MCH ${num('mch')==null?'not available':fmt(num('mch'),1)}, WBC ${val('wbc')||'not available'}, platelets ${val('plt')||'not available'}, ferritin ${num('ferritin')==null?'not available':fmt(num('ferritin'),1)}, TSAT ${num('tsat')==null?'not available':fmt(num('tsat'),1)+'%'}, CRP ${num('crp')==null?'not available':fmt(num('crp'),1)}, eGFR ${num('egfr')==null?'not available':fmt(num('egfr'))}, B12 ${val('b12')||'not available'}, folate ${val('folate')||'not available'}.`,
-    `Provisional pattern: ${pat}.`,
-    missing.length ? `Screen incomplete – missing: ${missing.join(', ')}.` : `Anaemia bundle complete.`,
-    `Action: ${act}`,
-    `Senior review: ${esc}.`,
-    `Special considerations: cancer/chemotherapy ${val('cancer')||'not entered'}; CKD ${val('ckd')||'not entered'}; bariatric/malabsorption ${val('bari')||'not entered'}; blood refusal ${val('refusal')||'not entered'}; antibodies/difficult blood ${val('antib')||'not entered'}; sickle/haemoglobinopathy ${val('sickle')||'not entered'}.`,
-    `Plan/owner: [enter named clinician/service]. Repeat Hb/review date: [enter]. Refer to current pre-op Hb-SOP.`
-  ];
-  return parts.join(' ');
-}
-
-function renderOutputs(){
-  const el=document.getElementById('outputs');
-  el.innerHTML='';
-  rows.forEach(([label,fn])=>{
-    const [status,text]=fn();
-    const row=document.createElement('div');
-    row.className='output-row';
-    row.innerHTML=`<div class="label">${label}</div><div class="status ${statusClass(status)}">${status}</div><div class="guidance">${text}</div>`;
-    el.appendChild(row);
-  });
-}
-
-function update(){
-  renderOutputs();
-
-  const [trigger,q]=seniorQuestion();
-  const triggerEl=document.getElementById('seniorTrigger');
-  triggerEl.textContent=trigger;
-  triggerEl.className='status '+(trigger.includes('URGENT')?'red':trigger.includes('SENIOR')?'amber':trigger==='NOT AUTOMATIC'?'green':'');
-  document.getElementById('clinicalQuestion').textContent=q;
-
-  const [screenStatus,screenText]=screenInterpretation();
-  const ss=document.getElementById('screenStatus');
-  ss.textContent=screenStatus;
-  ss.className='status '+statusClass(screenStatus);
-  document.getElementById('screenInterpretation').textContent=screenText;
-
-  document.getElementById('noteText').textContent=noteText();
-}
-
-async function copyText(id){
-  const text=document.getElementById(id).innerText;
+async function copyRich(id){
+  const el=document.getElementById(id),html=el.innerHTML,text=el.innerText;
   try{
-    await navigator.clipboard.writeText(text);
-  }catch(e){
-    const ta=document.createElement('textarea');
-    ta.value=text; document.body.appendChild(ta); ta.select(); document.execCommand('copy'); ta.remove();
-  }
+    if(window.ClipboardItem&&navigator.clipboard&&window.isSecureContext){
+      const item=new ClipboardItem({'text/plain':new Blob([text],{type:'text/plain'}),'text/html':new Blob([html],{type:'text/html'})});await navigator.clipboard.write([item]);
+    }else{await navigator.clipboard.writeText(text)}
+  }catch(e){const ta=document.createElement('textarea');ta.value=text;document.body.appendChild(ta);ta.select();document.execCommand('copy');ta.remove()}
 }
-
-function resetForm(){
-  ids.forEach(id=>{
-    const el=document.getElementById(id);
-    el.value='';
-  });
-  update();
-}
-
-update();
+document.querySelectorAll('.tab').forEach(btn=>btn.addEventListener('click',()=>{document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));document.querySelectorAll('.comm-panel').forEach(x=>x.classList.remove('active'));btn.classList.add('active');document.getElementById(btn.dataset.tab).classList.add('active')}));
+function resetForm(){ids.forEach(id=>{const el=document.getElementById(id);if(el.type==='checkbox')el.checked=false;else el.value=''});render()}
+render();
 </script>
 </body>
 </html>
